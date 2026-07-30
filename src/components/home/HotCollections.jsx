@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../../css/styles/skeleton.css";
 import "../../css/styles/slider.css";
+import "../../css/styles/hot-collection-card.css";
 
 const sliderSettings = {
   infinite: true,
@@ -53,7 +54,7 @@ const HotCollections = () => {
   }, []);
 
   const hotCollectionCard = (collection) => (
-    <div className="px-2" key={collection.id}>
+    <div className="px-2 hot-collection-card" key={collection.id}>
       <div className="nft_coll">
         <div className="nft_wrap">
           <Link to="/item-details">
@@ -77,7 +78,7 @@ const HotCollections = () => {
   );
 
   const SkeletonCard = (_, index) => (
-    <div className="px-2" key={index}>
+    <div className="px-2 hot-collection-card" key={index}>
       <div className="nft_coll">
         <div className="nft_wrap">
           <div className="skeleton-box skeleton-image" />
