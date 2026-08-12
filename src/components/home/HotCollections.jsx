@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
+import Skeleton from "../UI/Skeleton";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../../css/styles/skeleton.css";
@@ -87,14 +88,14 @@ const HotCollections = () => {
     <div className="px-2 hot-collection-card" key={index}>
       <div className="nft_coll">
         <div className="nft_wrap">
-          <div className="skeleton-box skeleton-image" />
+          <Skeleton className="skeleton-image" />
         </div>
         <div className="nft_coll_pp">
-          <div className="skeleton-box skeleton-avatar" />
+          <Skeleton className="skeleton-avatar" />
         </div>
         <div className="nft_coll_info">
-          <div className="skeleton-box skeleton-title" />
-          <div className="skeleton-box skeleton-text" />
+          <Skeleton className="skeleton-title" />
+          <Skeleton className="skeleton-text" />
         </div>
       </div>
     </div>

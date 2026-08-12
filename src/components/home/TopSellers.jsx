@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Skeleton from "../UI/Skeleton";
 import "../../css/styles/skeleton.css";
 
 const TopSellers = () => {
@@ -40,11 +41,11 @@ const TopSellers = () => {
                 ? new Array(12).fill(0).map((_, index) => (
                     <li key={index}>
                       <div className="author_list_pp">
-                        <div className="skeleton-box skeleton-avatar" />
+                        <Skeleton className="skeleton-avatar" />
                       </div>
                       <div className="author_list_info">
-                        <div className="skeleton-box skeleton-title" />
-                        <div className="skeleton-box skeleton-text" />
+                        <Skeleton className="skeleton-title" />
+                        <Skeleton className="skeleton-text" />
                       </div>
                     </li>
                   ))
