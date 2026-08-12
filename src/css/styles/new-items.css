@@ -51,51 +51,6 @@
   object-fit: cover;
 }
 
-.new-item-skeleton {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e6e6e6 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: new-item-skeleton-shimmer 1.2s linear infinite;
-  border-radius: 8px;
-}
-
-.new-item-skeleton-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-}
-
-.new-item-skeleton-countdown {
-  width: 110px;
-  height: 24px;
-  margin: 8px 0 12px;
-}
-
-.new-item-skeleton-image {
-  width: 100%;
-  height: 100%;
-}
-
-.new-item-skeleton-title {
-  height: 20px;
-  width: 70%;
-  margin-top: 12px;
-  margin-bottom: 8px;
-}
-
-.new-item-skeleton-price {
-  height: 16px;
-  width: 40%;
-}
-
-@keyframes new-item-skeleton-shimmer {
-  from {
-    background-position: 200% 0;
-  }
-  to {
-    background-position: -200% 0;
-  }
-}
-
 @media (max-width: 992px) {
   .new-item-card .nft__item_wrap {
     aspect-ratio: 4 / 5;

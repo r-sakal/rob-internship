@@ -27,6 +27,35 @@
   width: 40%;
 }
 
+.new-item-skeleton-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.new-item-skeleton-countdown {
+  width: 110px;
+  height: 24px;
+  margin: 8px 0 12px;
+}
+
+.new-item-skeleton-image {
+  width: 100%;
+  height: 100%;
+}
+
+.new-item-skeleton-title {
+  height: 20px;
+  width: 70%;
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
+
+.new-item-skeleton-price {
+  height: 16px;
+  width: 40%;
+}
+
 @keyframes skeleton-shimmer {
   from {
     background-position: 200% 0;

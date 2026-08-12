@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "../../css/styles/skeleton.css";
 import "../../css/styles/new-items.css";
 
 const sliderSettings = {
@@ -130,14 +131,14 @@ const NewItems = () => {
   const renderSkeletonCard = (_, index) => (
     <div className="px-2 new-item-card" key={index}>
       <div className="nft__item">
-        <div className="new-item-skeleton new-item-skeleton-avatar" />
-        <div className="new-item-skeleton new-item-skeleton-countdown" />
+        <div className="skeleton-box new-item-skeleton-avatar" />
+        <div className="skeleton-box new-item-skeleton-countdown" />
         <div className="nft__item_wrap">
-          <div className="new-item-skeleton new-item-skeleton-image" />
+          <div className="skeleton-box new-item-skeleton-image" />
         </div>
         <div className="nft__item_info">
-          <div className="new-item-skeleton new-item-skeleton-title" />
-          <div className="new-item-skeleton new-item-skeleton-price" />
+          <div className="skeleton-box new-item-skeleton-title" />
+          <div className="skeleton-box new-item-skeleton-price" />
         </div>
       </div>
     </div>
