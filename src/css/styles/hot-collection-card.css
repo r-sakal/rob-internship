@@ -1,0 +1,29 @@
+.hot-collection-card .nft_wrap {
+  height: 220px;
+}
+
+.hot-collection-card .nft_wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hot-collection-card .nft_coll_pp img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 992px) {
+  .hot-collection-card .nft_wrap {
+    height: 210px;
+  }
+}
+
+@media (max-width: 576px) {
+  .hot-collection-card .nft_wrap {
+    height: 240px;
+  }
+}

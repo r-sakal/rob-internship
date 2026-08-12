@@ -1,0 +1,37 @@
+.skeleton-box {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e6e6e6 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.2s infinite linear;
+  border-radius: 8px;
+}
+
+.skeleton-image {
+  height: 220px;
+  width: 100%;
+}
+
+.skeleton-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.skeleton-title {
+  height: 20px;
+  width: 70%;
+  margin-bottom: 8px;
+}
+
+.skeleton-text {
+  height: 16px;
+  width: 40%;
+}
+
+@keyframes skeleton-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
