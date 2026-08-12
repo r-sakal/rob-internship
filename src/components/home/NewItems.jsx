@@ -39,6 +39,7 @@ const sliderSettings = {
 const NewItems = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentTime, setCurrentTime] = useState(Date.now());
 
   useEffect(() => {
     const fetchNewItems = async () => {
@@ -57,8 +58,16 @@ const NewItems = () => {
     fetchNewItems();
   }, []);
 
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 1000);
+
+    return () => clearInterval(timerId);
+  }, []);
+
   const formatCountdown = (expiryDate) => {
-    const timeRemaining = Math.max(expiryDate - Date.now(), 0);
+    const timeRemaining = Math.max(expiryDate - currentTime, 0);
     const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
     const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
@@ -79,7 +88,7 @@ const NewItems = () => {
             <i className="fa fa-check"></i>
           </Link>
         </div>
-        <div className="de_countdown">{formatCountdown(item.expiryDate)}</div>
+        {item.expiryDate ? <div className="de_countdown">{formatCountdown(item.expiryDate)}</div> : null}
 
         <div className="nft__item_wrap">
           <div className="nft__item_extra">
