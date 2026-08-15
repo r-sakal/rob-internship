@@ -2,20 +2,24 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 
 const Author = () => {
+  const { authorId } = useParams();
   const [author, setAuthor] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const resolvedAuthorId = authorId || "73855012";
+
   useEffect(() => {
     const fetchAuthor = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(
           "https://us-central1-nft-cloud-functions.cloudfunctions.net/authors",
           {
-            params: { author: 73855012 },
+            params: { author: resolvedAuthorId },
           }
         );
         setAuthor(response.data);
@@ -27,7 +31,7 @@ const Author = () => {
     };
 
     fetchAuthor();
-  }, []);
+  }, [resolvedAuthorId]);
 
   return (
     <div id="wrapper">
@@ -84,6 +88,7 @@ const Author = () => {
                   <AuthorItems
                     items={author?.nftCollection || []}
                     authorImage={author?.authorImage || AuthorImage}
+                    authorId={author?.authorId || resolvedAuthorId}
                     loading={loading}
                   />
                 </div>

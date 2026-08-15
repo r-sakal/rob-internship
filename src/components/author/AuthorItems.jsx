@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Skeleton from "../UI/Skeleton";
 import "../../css/styles/skeleton.css";
 
-const AuthorItems = ({ items = [], authorImage, loading }) => {
+const AuthorItems = ({ items = [], authorImage, authorId, loading }) => {
   return (
     <div className="de_tab_content">
       <div className="tab-1">
@@ -29,7 +29,7 @@ const AuthorItems = ({ items = [], authorImage, loading }) => {
                 <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={item.id}>
                   <div className="nft__item">
                     <div className="author_list_pp">
-                      <Link to="/author">
+                      <Link to={`/author/${authorId || 73855012}`}>
                         <img className="lazy" src={authorImage} alt={item.title} />
                         <i className="fa fa-check"></i>
                       </Link>
