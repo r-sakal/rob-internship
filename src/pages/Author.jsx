@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 
 const Author = () => {
   const { authorId } = useParams();
   const [author, setAuthor] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [displayFollowers, setDisplayFollowers] = useState(0);
 
   const resolvedAuthorId = authorId || "73855012";
 
@@ -23,8 +25,13 @@ const Author = () => {
           }
         );
         setAuthor(response.data);
+        setDisplayFollowers(response.data?.followers || 0);
+        setIsFollowing(false);
       } catch (error) {
         console.error("Failed to fetch author:", error);
+        setAuthor(null);
+        setDisplayFollowers(0);
+        setIsFollowing(false);
       } finally {
         setLoading(false);
       }
@@ -32,6 +39,14 @@ const Author = () => {
 
     fetchAuthor();
   }, [resolvedAuthorId]);
+
+  const handleFollowToggle = () => {
+    const following = !isFollowing;
+    setIsFollowing(following);
+    setDisplayFollowers((previousFollowers) =>
+      Math.max(0, previousFollowers + (following ? 1 : -1))
+    );
+  };
 
   return (
     <div id="wrapper">
@@ -73,11 +88,16 @@ const Author = () => {
                   <div className="profile_follow de-flex">
                     <div className="de-flex-col">
                       <div className="profile_follower">
-                        {loading ? "Loading followers..." : `${author?.followers || 0} followers`}
+                        {loading ? "Loading followers..." : `${displayFollowers} followers`}
                       </div>
-                      <Link to="#" className="btn-main">
-                        Follow
-                      </Link>
+                      <button
+                        type="button"
+                        className="btn-main"
+                        onClick={handleFollowToggle}
+                        disabled={loading || !author}
+                      >
+                        {isFollowing ? "Unfollow" : "Follow"}
+                      </button>
                     </div>
                   </div>
                 </div>
