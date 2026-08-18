@@ -4,6 +4,8 @@ import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
 import { useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
+import Skeleton from "../components/UI/Skeleton";
+import "../css/styles/skeleton.css";
 
 const Author = () => {
   const { authorId } = useParams();
@@ -68,36 +70,57 @@ const Author = () => {
                 <div className="d_profile de-flex">
                   <div className="de-flex-col">
                     <div className="profile_avatar">
-                      <img src={author?.authorImage || AuthorImage} alt={author?.authorName || "Author"} />
+                      {loading ? (
+                        <Skeleton width="150px" height="150px" borderRadius="50%" />
+                      ) : (
+                        <img src={author?.authorImage || AuthorImage} alt={author?.authorName || "Author"} />
+                      )}
 
-                      <i className="fa fa-check"></i>
+                      {!loading ? <i className="fa fa-check"></i> : null}
                       <div className="profile_name">
-                        <h4>
-                          {author?.authorName || "Monica Lucas"}
-                          <span className="profile_username">@{author?.tag || "monicaaaa"}</span>
-                          <span id="wallet" className="profile_wallet">
-                            {author?.address || "UDHUHWudhwd78wdt7edb32uidbwyuidhg7wUHIFUHWewiqdj87dy7"}
-                          </span>
-                          <button id="btn_copy" title="Copy Text">
-                            Copy
-                          </button>
-                        </h4>
+                        {loading ? (
+                          <>
+                            <Skeleton width="220px" height="30px" style={{ marginBottom: "10px" }} />
+                            <Skeleton width="140px" height="16px" style={{ marginBottom: "10px" }} />
+                            <Skeleton width="440px" height="16px" style={{ marginBottom: "12px" }} />
+                            <Skeleton width="90px" height="34px" borderRadius="8px" />
+                          </>
+                        ) : (
+                          <h4>
+                            {author?.authorName || "Monica Lucas"}
+                            <span className="profile_username">@{author?.tag || "monicaaaa"}</span>
+                            <span id="wallet" className="profile_wallet">
+                              {author?.address || "UDHUHWudhwd78wdt7edb32uidbwyuidhg7wUHIFUHWewiqdj87dy7"}
+                            </span>
+                            <button id="btn_copy" title="Copy Text">
+                              Copy
+                            </button>
+                          </h4>
+                        )}
                       </div>
                     </div>
                   </div>
                   <div className="profile_follow de-flex">
                     <div className="de-flex-col">
                       <div className="profile_follower">
-                        {loading ? "Loading followers..." : `${displayFollowers} followers`}
+                        {loading ? (
+                          <Skeleton width="150px" height="18px" />
+                        ) : (
+                          `${displayFollowers} followers`
+                        )}
                       </div>
-                      <button
-                        type="button"
-                        className="btn-main"
-                        onClick={handleFollowToggle}
-                        disabled={loading || !author}
-                      >
-                        {isFollowing ? "Unfollow" : "Follow"}
-                      </button>
+                      {loading ? (
+                        <Skeleton width="120px" height="44px" borderRadius="40px" />
+                      ) : (
+                        <button
+                          type="button"
+                          className="btn-main"
+                          onClick={handleFollowToggle}
+                          disabled={!author}
+                        >
+                          {isFollowing ? "Unfollow" : "Follow"}
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
