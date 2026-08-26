@@ -1,29 +1,19 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import { Link } from "react-router-dom";
 import Skeleton from "../UI/Skeleton";
+import useApiData from "../UI/api/useApiData";
 import "../../css/styles/skeleton.css";
 
 const TopSellers = () => {
-  const [sellers, setSellers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: sellersData, loading } = useApiData(
+    "https://us-central1-nft-cloud-functions.cloudfunctions.net/topSellers",
+    {
+      initialData: [],
+      errorMessage: "Failed to fetch top sellers:",
+    }
+  );
 
-  useEffect(() => {
-    const fetchTopSellers = async () => {
-      try {
-        const response = await axios.get(
-          "https://us-central1-nft-cloud-functions.cloudfunctions.net/topSellers"
-        );
-        setSellers(response.data);
-      } catch (error) {
-        console.error("Failed to fetch top sellers:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTopSellers();
-  }, []);
+  const sellers = Array.isArray(sellersData) ? sellersData : [];
 
   return (
     <section id="section-popular" className="pb-5">

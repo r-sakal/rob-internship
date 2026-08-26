@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import Skeleton from "../UI/Skeleton";
+import useApiData from "../UI/api/useApiData";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../../css/styles/skeleton.css";
@@ -40,25 +40,15 @@ const sliderSettings = {
 };
 
 const HotCollections = () => {
-  const [collections, setCollections] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: collectionsData, loading } = useApiData(
+    "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections",
+    {
+      initialData: [],
+      errorMessage: "Failed to fetch hot collections:",
+    }
+  );
 
-  useEffect(() => {
-    const fetchCollections = async () => {
-      try {
-        const response = await axios.get(
-          "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
-        );
-        setCollections(response.data);
-      } catch (error) {
-        console.error("Failed to fetch hot collections:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCollections();
-  }, []);
+  const collections = Array.isArray(collectionsData) ? collectionsData : [];
 
   const hotCollectionCard = (collection) => (
     <div className="px-2 hot-collection-card" key={collection.id}>

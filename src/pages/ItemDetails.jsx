@@ -1,40 +1,28 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useMemo } from "react";
 import EthImage from "../images/ethereum.svg";
 import { Link, useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 import Skeleton from "../components/UI/Skeleton";
+import useApiData from "../components/UI/api/useApiData";
 import "../css/styles/skeleton.css";
 
 const ItemDetails = () => {
   const { nftId } = useParams();
-  const [item, setItem] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   const resolvedNftId = nftId || "17914494";
+  const requestParams = useMemo(() => ({ nftId: resolvedNftId }), [resolvedNftId]);
+
+  const { data: item, loading } = useApiData(
+    "https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails",
+    {
+      params: requestParams,
+      initialData: null,
+      errorMessage: "Failed to fetch item details:",
+    }
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    const fetchItemDetails = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          "https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails",
-          {
-            params: { nftId: resolvedNftId },
-          }
-        );
-        setItem(response.data);
-      } catch (error) {
-        console.error("Failed to fetch item details:", error);
-        setItem(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchItemDetails();
   }, [resolvedNftId]);
 
   return (
