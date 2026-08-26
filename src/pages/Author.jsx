@@ -1,46 +1,33 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useMemo, useState } from "react";
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
 import { useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 import Skeleton from "../components/UI/Skeleton";
+import useApiData from "../components/UI/api/useApiData";
 import "../css/styles/skeleton.css";
 
 const Author = () => {
   const { authorId } = useParams();
-  const [author, setAuthor] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [isFollowing, setIsFollowing] = useState(false);
   const [displayFollowers, setDisplayFollowers] = useState(0);
 
   const resolvedAuthorId = authorId || "73855012";
+  const requestParams = useMemo(() => ({ author: resolvedAuthorId }), [resolvedAuthorId]);
+
+  const { data: author, loading } = useApiData(
+    "https://us-central1-nft-cloud-functions.cloudfunctions.net/authors",
+    {
+      params: requestParams,
+      initialData: null,
+      errorMessage: "Failed to fetch author:",
+    }
+  );
 
   useEffect(() => {
-    const fetchAuthor = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          "https://us-central1-nft-cloud-functions.cloudfunctions.net/authors",
-          {
-            params: { author: resolvedAuthorId },
-          }
-        );
-        setAuthor(response.data);
-        setDisplayFollowers(response.data?.followers || 0);
-        setIsFollowing(false);
-      } catch (error) {
-        console.error("Failed to fetch author:", error);
-        setAuthor(null);
-        setDisplayFollowers(0);
-        setIsFollowing(false);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAuthor();
-  }, [resolvedAuthorId]);
+    setDisplayFollowers(author?.followers || 0);
+    setIsFollowing(false);
+  }, [author]);
 
   const handleFollowToggle = () => {
     const following = !isFollowing;

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import Countdown from "../UI/Countdown";
 import SkeletonCard from "../UI/SkeletonCard";
+import useApiData from "../UI/api/useApiData";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../../css/styles/skeleton.css";
@@ -40,25 +40,15 @@ const sliderSettings = {
 };
 
 const NewItems = () => {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: itemsData, loading } = useApiData(
+    "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems",
+    {
+      initialData: [],
+      errorMessage: "Failed to fetch new items:",
+    }
+  );
 
-  useEffect(() => {
-    const fetchNewItems = async () => {
-      try {
-        const response = await axios.get(
-          "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"
-        );
-        setItems(response.data);
-      } catch (error) {
-        console.error("Failed to fetch new items:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchNewItems();
-  }, []);
+  const items = Array.isArray(itemsData) ? itemsData : [];
 
   const renderNewItemCard = (item) => (
     <div className="px-2 new-item-card" key={item.id}>
@@ -95,12 +85,12 @@ const NewItems = () => {
             </div>
           </div>
 
-          <Link to="/item-details">
+          <Link to={`/item-details/${item.nftId || item.id}`}>
             <img src={item.nftImage} className="lazy nft__item_preview" alt={item.title} />
           </Link>
         </div>
         <div className="nft__item_info">
-          <Link to="/item-details">
+          <Link to={`/item-details/${item.nftId || item.id}`}>
             <h4>{item.title}</h4>
           </Link>
           <div className="nft__item_price">{item.price} ETH</div>
