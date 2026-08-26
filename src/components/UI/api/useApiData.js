@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 
 const useApiData = (
@@ -10,7 +10,8 @@ const useApiData = (
     errorMessage = "Failed to fetch data:",
   } = {}
 ) => {
-  const [data, setData] = useState(initialData);
+  const initialDataRef = useRef(initialData);
+  const [data, setData] = useState(initialDataRef.current);
   const [loading, setLoading] = useState(enabled);
 
   const serializedParams = useMemo(() => JSON.stringify(params || {}), [params]);
@@ -35,7 +36,7 @@ const useApiData = (
       } catch (error) {
         console.error(errorMessage, error);
         if (active) {
-          setData(initialData);
+          setData(initialDataRef.current);
         }
       } finally {
         if (active) {
@@ -49,7 +50,7 @@ const useApiData = (
     return () => {
       active = false;
     };
-  }, [url, stableParams, enabled, errorMessage, initialData]);
+  }, [url, stableParams, enabled, errorMessage]);
 
   return { data, loading, setData };
 };
