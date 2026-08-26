@@ -5,7 +5,6 @@ const useApiData = (
   url,
   {
     params = {},
-    deps = [],
     initialData = null,
     enabled = true,
     errorMessage = "Failed to fetch data:",
@@ -15,6 +14,7 @@ const useApiData = (
   const [loading, setLoading] = useState(enabled);
 
   const serializedParams = useMemo(() => JSON.stringify(params || {}), [params]);
+  const stableParams = useMemo(() => JSON.parse(serializedParams), [serializedParams]);
 
   useEffect(() => {
     if (!enabled) {
@@ -28,7 +28,7 @@ const useApiData = (
       setLoading(true);
 
       try {
-        const response = await axios.get(url, { params });
+        const response = await axios.get(url, { params: stableParams });
         if (active) {
           setData(response.data);
         }
@@ -49,7 +49,7 @@ const useApiData = (
     return () => {
       active = false;
     };
-  }, [url, serializedParams, enabled, errorMessage, ...deps]);
+  }, [url, stableParams, enabled, errorMessage, initialData]);
 
   return { data, loading, setData };
 };
